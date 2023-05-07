@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: cloud_computing
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
+    ports:
+    - 3306:3306
+    networks:
+      - cloud_computing
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    networks:
+      - cloud_computing
+
+  www:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: DockerFile
+    volumes:
+      - "./:/var/www/html"
+    networks:
+      - cloud_computing
+
+  nginx:
+    image: fsouza/docker-ssl-proxy
+    restart: always
+    ports:
+      - 443:443
+    environment:
+      DOMAIN: ec2-3-93-13-9.compute-1.amazonaws.com
+      TARGET_PORT: 80
+      TARGET_HOST: www
+      SSL_PORT: 443
+    volumes:
+      - "./certs"
+    networks:
+      - cloud_computing
+
+networks:
+  cloud_computing:
+    driver: bridge
