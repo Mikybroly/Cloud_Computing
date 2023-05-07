@@ -6,3 +6,7 @@ Il sito web dovrà essere scritto rispettando gli standard HTML5 e CSS3 e dovrà
 - La consegna deve avvenire entro la fine delle vacanze di Pasqua.
 - Ogni giorno di ritardo comporterà una penalizzazione sul voto finale
 - Bonus (ma non obbligatorio) per chi permetterà la connessione su http CON redirezione obbligatoria verso HTTPS
+
+Credenziali:
+  - daniele.prevedello@bernocchi.it / password
+  - ruben.scopacasa@bernocchi.it / password
